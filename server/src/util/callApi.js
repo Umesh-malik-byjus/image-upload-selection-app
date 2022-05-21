@@ -4,9 +4,9 @@ const callApi = async (props) => {
     const {url ="", method= "GET", payload} = props;
     const config = {
         method,
-        url: `https://api.imagekit.io${url}`,
+        url: `${process.env.API_URL}${url}`,
         headers: {
-            'Authorization': 'Basic cHJpdmF0ZV9scXNuOWhsa3YyWDFIUi9vVEYxdlZld1JHS1E9Og=='
+            'Authorization': `Basic ${process.env.BASE64_TOKEN}`,
         },
         data: payload
     }
