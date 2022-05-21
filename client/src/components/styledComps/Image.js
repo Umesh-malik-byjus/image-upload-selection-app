@@ -7,6 +7,7 @@ const ImageWrapper = styled.div`
     border-radius: 5px;
     overflow: hidden;
     position: relative;
+    height: 100px;
     &:before {
         display: ${props => props?.isSelected ? "flex" : "none"};
         place-content: center;
