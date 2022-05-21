@@ -26,25 +26,24 @@ const Images = (props) => {
                 console.error(err)
             })
     }, [isOpen])
-
     return (
         <Box>
             <Heading>
                 Your Image(s)
             </Heading>
             <IKContext
-                publicKey="public_ElpJYTdJgF4FWxgpCF1P4zNIfKI="
-                urlEndpoint="https://ik.imagekit.io/s3zl5hug1"
+                publicKey={import.meta.env.VITE_PUBLIC_KEY}
+                urlEndpoint={import.meta.env.VITE_URL_ENDPOINT}
                 transformationPosition="path"
-                authenticationEndpoint="http://localhost:8080/api/auth-upload"
+                authenticationEndpoint={`${import.meta.env.VITE_SERVER_ENDPOINT}/api/auth-upload`}
             >
-                <Flex 
+                <Flex
                     height={"200px"}>
                     {
                         images.map((image, idx) =>
-                            <ImageWrapper 
-                                key = {idx} 
-                                isSelected = {selectedImage === image?.url} 
+                            <ImageWrapper
+                                key={idx}
+                                isSelected={selectedImage === image?.url}
                                 onClick={() => setSelectedImage(image?.url)}
                             >
                                 <IKImage

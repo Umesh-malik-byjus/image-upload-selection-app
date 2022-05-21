@@ -4,7 +4,7 @@ const callApi = async (props) => {
     const {url ="", method= "GET", payload = ""} = props;
     const config = {
         method,
-        url: `http://localhost:8080${url}`,
+        url: `https://image-upload-selection-epkyt9mnb-umeshmalik.vercel.app${url}`,
         data: payload
     }
     return await axios(config).then(res => {

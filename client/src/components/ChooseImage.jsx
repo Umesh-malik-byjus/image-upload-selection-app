@@ -34,14 +34,14 @@ const ChooseImage = (props) => {
         const formData = new FormData();
         formData.append('file', file);
         formData.append("fileName", file?.name);
-        formData.append("publicKey", "public_ElpJYTdJgF4FWxgpCF1P4zNIfKI=");
+        formData.append("publicKey", import.meta.env.VITE_PUBLIC_KEY);
         formData.append("useUniqueFileName", true);
         Object.entries(res).forEach(([key, value]) => {
             formData.append(key, value);
         })
         await axios({
             method: "POST",
-            url: "https://upload.imagekit.io/api/v1/files/upload",
+            url: import.meta.env.VITE_IMAGE_UPLOAD_URI,
             data: formData,
             headers: {
                 'Content-Type': 'multipart/form-data'
