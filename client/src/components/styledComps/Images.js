@@ -11,14 +11,7 @@ const Box = styled.div`
     border-radius: 5px;
 `;
 
-const Error = styled.div`
-    color: red;
-    padding: 10px;
-    border-radius: 5px;
-`;
-
 export {
     Heading,
-    Box,
-    Error
+    Box
 };
