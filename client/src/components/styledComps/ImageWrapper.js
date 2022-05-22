@@ -24,6 +24,4 @@ const ImageWrapper = styled.div`
     }
 `;
 
-export {
-    ImageWrapper
-}
+export default ImageWrapper;

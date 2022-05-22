@@ -1,13 +1,13 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { useSetRecoilState, useRecoilState } from 'recoil'
+import React, { useState } from 'react'
+import { useSetRecoilState } from 'recoil'
 import { FcAddImage } from 'react-icons/fc'
 import { Button, Header, Span } from './styledComps/Model'
 import { selectedImageState, urlState } from './recoil/selectedImage'
-import { Error } from './styledComps/Images'
+import { Error } from './styledComps/App'
 import { callApi } from './utils/callApi'
 import axios from 'axios'
 
-const ChooseImage = (props) => {
+const ChooseLocalImage = (props) => {
     const { onClose } = props;
     const [imageInfo, setImageInfo] = useState();
     const [error, setError] = useState();
@@ -112,4 +112,4 @@ const ChooseImage = (props) => {
     )
 }
 
-export default ChooseImage
+export default ChooseLocalImage
