@@ -38,7 +38,9 @@ const Images = (props) => {
                 authenticationEndpoint={`${import.meta.env.VITE_SERVER_ENDPOINT}/api/auth-upload`}
             >
                 <Flex
-                    height={"100px"}>
+                    height={"25vh"}
+                    center
+                >
                     {
                         images.map((image, idx) =>
                             <ImageWrapper
