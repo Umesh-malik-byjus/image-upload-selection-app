@@ -11,9 +11,9 @@ const UploadBar = () => {
     const [info, setInfo] = useState(null);
     return (
         <>
-            <p>Hero Image</p>
+            <label id="image-label">Hero Image</label>
             <Flex>
-                <TextBar onFocus={(e) => setOpenModel(true)} defaultValue={selectedImage}/>
+                <TextBar for="image-labels" onFocus={(e) => setOpenModel(true)} defaultValue={selectedImage} inputMode= "none"/>
                 <UploadButton onClick={()=> selectedImage && setInfo("Image Uploaded")}>Upload Image</UploadButton>
             </Flex>
             <Info>{info}</Info>
