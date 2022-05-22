@@ -33,6 +33,7 @@ const TextBar = styled.input`
 
 const Flex = styled.div`
     display: flex;
+    place-content: ${props => props?.center ? "center" : "flex-start"};
     flex-direction: row;
     flex-wrap: wrap;
     height: ${props => props?.height ? props?.height : "auto"};
