@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { useSetRecoilState } from 'recoil'
+import React, { useState, useEffect } from 'react'
+import { useRecoilState, useSetRecoilState } from 'recoil'
 import { FcAddImage } from 'react-icons/fc'
 import { Button, Header, Span } from './styledComps/Model'
 import { selectedImageState, urlState } from './recoil/selectedImage'
@@ -12,28 +12,48 @@ const ChooseLocalImage = (props) => {
     const [imageInfo, setImageInfo] = useState();
     const [error, setError] = useState();
     const setSelectedImage = useSetRecoilState(selectedImageState)
-    const setUrl = useSetRecoilState(urlState);
+    const [url, setUrl] = useRecoilState(urlState);
+    const [totalImages, setTotalImages] = useState(0);
+    const [imageUploaded, setImageUploaded] = useState(0);
+    const [files, setFiles] = useState([]);
+    const [firstImageUrl, setFirstImageUrl] = useState('');
+    const [isUploading, setIsUploading] = useState(false);
+
+    useEffect(() => {
+        return () => {
+            setTotalImages(0);
+            setImageInfo(prevState => '');
+            setError(null);
+            setFiles([]);
+        }
+    }, [])
+
+    useEffect(() => {
+        if(imageUploaded === totalImages && totalImages > 0) {
+            setImageUploaded(0);
+            setIsUploading(false);
+            setUrl(firstImageUrl);
+            setSelectedImage(firstImageUrl);
+            onClose();
+        }
+    }, [firstImageUrl, imageUploaded]);
 
     const onClick = (e) => {
         e.stopPropagation();
         document.getElementById('file').click();
     }
 
-    const setFinalUrl = (url) => {
-        setUrl(url);
-        onClose();
-        return true;
-    }
-
     const uploadImage = async () => {
-        const file = document.getElementById('file').files[0];
+        const file = document.getElementById('file').files;
+        setIsUploading(prevState => !prevState);
+        for(let i = 0; i < file.length; i++) {
         const res = await callApi({
                         url: '/api/auth-upload',
                         method: 'GET',
                     })
         const formData = new FormData();
-        formData.append('file', file);
-        formData.append("fileName", file?.name);
+        formData.append('file', file[i]);
+        formData.append("fileName", file[i]?.name);
         formData.append("publicKey", import.meta.env.VITE_PUBLIC_KEY);
         formData.append("useUniqueFileName", true);
         Object.entries(res).forEach(([key, value]) => {
@@ -46,50 +66,49 @@ const ChooseLocalImage = (props) => {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
-        }).then(res => {
-            setFinalUrl(res?.data?.url)
-        }).catch(err => {
-            console.error(err)
-        })
+            }).then(res => {
+                const url = res.data.url;
+                setFirstImageUrl(url);
+                setImageUploaded(prevState => prevState + 1);
+            }).catch(err => {
+                console.error(err)
+            })
+        }
     }
 
     const onChange = (e) => {
         setError(null);
-        const file = e.target.files[0];
-        if(!file?.type.includes('image')){
-            setImageInfo(null)
-            setSelectedImage({
-                url: null,
-                file: null
-            })
-            setError('Please select an image')
-            return;
+        setImageInfo(prevState => '');
+        const file = e.target.files;
+        for(let images = 0; images < file.length; images++ ){
+            if(!file[images]?.type.includes('image')){
+                setImageInfo('')
+                setSelectedImage({
+                    url: null,
+                    file: null
+                })
+                setError('Please select an image')
+                return;
+            }
+            if(file[images].size > 5000000){
+                setImageInfo('')
+                setSelectedImage({
+                    url: null,
+                    file: null
+                })
+                setError('Image size should be less than 5mb')
+                return;
+            }
+            setImageInfo(prevState => `${prevState} ${file[images].name} ,`);
         }
-        if(file.size > 5000000){
-            setImageInfo(null)
-            setSelectedImage({
-                url: null,
-                file: null
-            })
-            setError('Image size should be less than 5mb')
-            return;
-        }
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            setSelectedImage({
-                url: e.target.result,
-                file: file
-            })
-        }
-        reader.readAsDataURL(file);
-        setImageInfo(file?.name);
+        setTotalImages(file.length);
     }
 
     return (
         <Header>
             <FcAddImage size={60} />
             <Span>{imageInfo}</Span>
-            <input id="file" type="file" hidden onInput={onChange} />
+            <input id="file" type="file" defaultValue={files} hidden onInput={onChange} multiple/>
             <Header row>
                 {imageInfo &&
                     <Button 
@@ -104,6 +123,8 @@ const ChooseLocalImage = (props) => {
                     Choose Image(s)
                 </Button>
             </Header>
+            { totalImages > 0 && <span>{imageUploaded} / {totalImages}</span>}
+            {isUploading && <Span>Uploading...</Span>}
             <Error>
                 {error}
             </Error>
