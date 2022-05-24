@@ -32,7 +32,7 @@ const TextBar = styled.input`
 `;
 
 const Flex = styled.div`
-    display: flex;
+    display: ${props => (props.box ? "-webkit-box" : "flex")};
     place-content: ${props => props?.center ? "center" : "flex-start"};
     flex-direction: row;
     flex-wrap: wrap;
