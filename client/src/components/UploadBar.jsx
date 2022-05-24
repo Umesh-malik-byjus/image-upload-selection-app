@@ -18,7 +18,7 @@ const UploadBar = () => {
                 <UploadButton onClick={()=> selectedImage && setInfo("Image Uploaded")}>Upload Image</UploadButton>
             </Flex>
             <Info>{info}</Info>
-            <Model isOpen = {openModel} onClose = {()=> setOpenModel(false)}/>
+            {openModel && <Model isOpen = {openModel} onClose = {()=> setOpenModel(false)}/>}
         </>
     )
 }

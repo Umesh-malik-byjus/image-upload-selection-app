@@ -10,7 +10,13 @@ const urlState = atom({
     default: null
 })
 
+const firstImageUrlState = atom({
+    key: "firstImageUrlState",
+    default: null
+})
+
 export {
     selectedImageState,
-    urlState
+    urlState,
+    firstImageUrlState
 }
