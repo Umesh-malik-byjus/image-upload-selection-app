@@ -3,7 +3,7 @@ import { useRecoilValue } from 'recoil';
 
 import { urlState } from './recoil/selectedImage';
 import Model from './Model';
-import { TextBar, UploadButton, Flex, Info} from './styledComps/UploadButton'
+import { TextBar, UploadButton, Flex, Info, Label} from './styledComps/UploadButton'
 
 const UploadBar = () => {
     const selectedImage = useRecoilValue(urlState);
@@ -12,7 +12,7 @@ const UploadBar = () => {
 
     return (
         <>
-            <label id="image-label">Hero Image</label>
+            <Label required = "*" id="image-label">Hero Image</Label>
             <Flex>
                 <TextBar htmlFor="image-labels" onFocus={(e) => setOpenModel(true)} defaultValue={selectedImage} inputMode= "none"/>
                 <UploadButton onClick={()=> selectedImage && setInfo("Image Uploaded")}>Upload Image</UploadButton>
