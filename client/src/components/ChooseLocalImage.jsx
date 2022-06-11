@@ -10,8 +10,8 @@ import axios from 'axios'
 
 const ChooseLocalImage = (props) => {
     const { onClose } = props;
-    const [imageInfo, setImageInfo] = useState();
-    const [error, setError] = useState();
+    const [imageInfo, setImageInfo] = useState('');
+    const [error, setError] = useState(null);
     const setSelectedImage = useSetRecoilState(selectedImageState)
     const [url, setUrl] = useRecoilState(urlState);
     const [totalImages, setTotalImages] = useState(0);
