@@ -104,6 +104,7 @@ const ChooseLocalImage = (props) => {
     }
 
     const setInfoOfImages = (file) => {
+        setImageInfo('')
         for (let images = 0; images < file.length; images++) {
             if (!file[images]?.type.includes('image')) {
                 setImageInfo('')
