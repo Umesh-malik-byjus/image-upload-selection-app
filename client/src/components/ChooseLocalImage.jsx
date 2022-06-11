@@ -126,6 +126,7 @@ const ChooseLocalImage = (props) => {
             }
             setImageInfo(prevState => `${prevState} ${file[images].name} ,`);
         }
+        setImageInfo(prevState => prevState.slice(0, -1));
     }
     return (
         <Header ref={dropZone}>
