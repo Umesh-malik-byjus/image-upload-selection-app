@@ -48,9 +48,19 @@ const Info = styled.div`
     overflow: auto;
 `;
 
+const Label = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    overflow: auto;
+    &:after{
+        content: "*";
+        color: red;
+    }
+`;
 export {
     UploadButton,
     TextBar,
     Flex,
-    Info
+    Info,
+    Label
 };
